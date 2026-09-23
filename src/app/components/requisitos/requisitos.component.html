@@ -1,0 +1,20 @@
+<section id="requisitos" class="bg-white">
+  <div class="max-w-[1100px] mx-auto px-4 sm:px-6 py-14">
+    <h2 class="text-2xl sm:text-3xl font-bold text-blue-900 text-center mb-10">Requisitos para matrícula</h2>
+
+    <div class="grid gap-5 sm:grid-cols-2 md:grid-cols-3">
+      @for (r of requisitos; track r.titulo) {
+        <div class="bg-gray-50 rounded-2xl border border-gray-100 p-5 flex gap-4 items-start hover:shadow-sm transition-shadow">
+          <div class="text-2xl shrink-0">{{ r.icono }}</div>
+          <div class="flex-1">
+            <div class="flex items-center gap-2">
+              <span class="text-green-600 font-bold">✓</span>
+              <h3 class="font-semibold text-blue-900">{{ r.titulo }}</h3>
+            </div>
+            <p class="text-gray-600 text-sm mt-1">{{ r.descripcion }}</p>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</section>

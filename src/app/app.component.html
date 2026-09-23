@@ -1,0 +1,18 @@
+<app-navbar></app-navbar>
+
+<main>
+  <app-hero></app-hero>
+  <app-como-funciona></app-como-funciona>
+  <app-requisitos></app-requisitos>
+  <app-proceso-matricula></app-proceso-matricula>
+  <app-consulta-estado (matriculaEncontrada)="onMatriculaEncontrada($event)"></app-consulta-estado>
+  <app-comprobante [matricula]="matriculaConsultada"></app-comprobante>
+</main>
+
+<footer class="bg-blue-900 text-white no-imprimir">
+  <div class="max-w-[1100px] mx-auto px-4 sm:px-6 py-8 text-center">
+    <p class="font-semibold">IEP N.° 20874</p>
+    <p class="text-blue-200 text-sm">Gestión 2026</p>
+    <p class="text-blue-300 text-xs mt-2">Sistema frontend demostrativo de gestión de matrículas.</p>
+  </div>
+</footer>

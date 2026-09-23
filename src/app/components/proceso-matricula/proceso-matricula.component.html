@@ -1,0 +1,304 @@
+<section id="proceso" class="bg-gray-50">
+  <div class="max-w-[1100px] mx-auto px-4 sm:px-6 py-14">
+    <h2 class="text-2xl sm:text-3xl font-bold text-blue-900 text-center mb-8">Proceso de matrícula</h2>
+
+    <!-- Barra de progreso -->
+    <div class="max-w-2xl mx-auto mb-10">
+      <div class="flex justify-between items-center relative">
+        <div class="absolute top-4 left-0 right-0 h-1 bg-gray-200 rounded-full -z-10"></div>
+        <div class="absolute top-4 left-0 h-1 bg-blue-600 rounded-full -z-10 transition-all duration-300"
+             [style.width.%]="((pasoActual - 1) / (totalPasos - 1)) * 100"></div>
+
+        @for (n of [1,2,3,4,5]; track n) {
+          <div class="flex flex-col items-center gap-1 cursor-pointer" (click)="irAPaso(n)">
+            <div class="paso-punto w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold border-2"
+                 [class.bg-blue-600]="n <= pasoActual"
+                 [class.text-white]="n <= pasoActual"
+                 [class.border-blue-600]="n <= pasoActual"
+                 [class.bg-white]="n > pasoActual"
+                 [class.text-gray-400]="n > pasoActual"
+                 [class.border-gray-300]="n > pasoActual">
+              {{ n }}
+            </div>
+            <span class="text-[10px] sm:text-xs text-gray-500 hidden sm:block">Paso {{ n }}</span>
+          </div>
+        }
+      </div>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 sm:p-8 max-w-2xl mx-auto fade-in">
+
+      <!-- PASO 1: ESTUDIANTE -->
+      @if (pasoActual === 1) {
+        <form [formGroup]="formEstudiante">
+          <h3 class="text-lg font-semibold text-blue-900 mb-5">Datos del estudiante</h3>
+
+          <div class="grid sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Nombres</label>
+              <input type="text" formControlName="nombres"
+                     class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+              @if (mensajeErrorEstudiante('nombres')) {
+                <p class="text-red-600 text-xs mt-1">{{ mensajeErrorEstudiante('nombres') }}</p>
+              }
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Apellidos</label>
+              <input type="text" formControlName="apellidos"
+                     class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+              @if (mensajeErrorEstudiante('apellidos')) {
+                <p class="text-red-600 text-xs mt-1">{{ mensajeErrorEstudiante('apellidos') }}</p>
+              }
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">DNI</label>
+              <input type="text" formControlName="dni" maxlength="8" inputmode="numeric"
+                     class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+              @if (mensajeErrorEstudiante('dni')) {
+                <p class="text-red-600 text-xs mt-1">{{ mensajeErrorEstudiante('dni') }}</p>
+              }
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Fecha de nacimiento</label>
+              <input type="date" formControlName="fechaNacimiento"
+                     class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+              @if (mensajeErrorEstudiante('fechaNacimiento')) {
+                <p class="text-red-600 text-xs mt-1">{{ mensajeErrorEstudiante('fechaNacimiento') }}</p>
+              }
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Grado</label>
+              <select formControlName="grado"
+                      class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <option value="" disabled>Selecciona un grado</option>
+                @for (g of grados; track g) {
+                  <option [value]="g">{{ g }}</option>
+                }
+              </select>
+              @if (mensajeErrorEstudiante('grado')) {
+                <p class="text-red-600 text-xs mt-1">{{ mensajeErrorEstudiante('grado') }}</p>
+              }
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">¿Es nuevo en la institución?</label>
+              <select formControlName="esNuevo"
+                      class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <option value="" disabled>Selecciona una opción</option>
+                <option value="si">Sí</option>
+                <option value="no">No</option>
+              </select>
+              @if (mensajeErrorEstudiante('esNuevo')) {
+                <p class="text-red-600 text-xs mt-1">{{ mensajeErrorEstudiante('esNuevo') }}</p>
+              }
+            </div>
+          </div>
+        </form>
+      }
+
+      <!-- PASO 2: APODERADO -->
+      @if (pasoActual === 2) {
+        <form [formGroup]="formApoderado">
+          <h3 class="text-lg font-semibold text-blue-900 mb-5">Datos del apoderado</h3>
+
+          <div class="grid sm:grid-cols-2 gap-4">
+            <div class="sm:col-span-2">
+              <label class="block text-sm font-medium text-gray-700 mb-1">Nombre completo</label>
+              <input type="text" formControlName="nombreCompleto"
+                     class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+              @if (mensajeErrorApoderado('nombreCompleto')) {
+                <p class="text-red-600 text-xs mt-1">{{ mensajeErrorApoderado('nombreCompleto') }}</p>
+              }
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">DNI</label>
+              <input type="text" formControlName="dni" maxlength="8" inputmode="numeric"
+                     class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+              @if (mensajeErrorApoderado('dni')) {
+                <p class="text-red-600 text-xs mt-1">{{ mensajeErrorApoderado('dni') }}</p>
+              }
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Teléfono</label>
+              <input type="text" formControlName="telefono" maxlength="9" inputmode="numeric"
+                     class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+              @if (mensajeErrorApoderado('telefono')) {
+                <p class="text-red-600 text-xs mt-1">{{ mensajeErrorApoderado('telefono') }}</p>
+              }
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Correo</label>
+              <input type="email" formControlName="correo"
+                     class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+              @if (mensajeErrorApoderado('correo')) {
+                <p class="text-red-600 text-xs mt-1">{{ mensajeErrorApoderado('correo') }}</p>
+              }
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Parentesco</label>
+              <select formControlName="parentesco"
+                      class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <option value="" disabled>Selecciona una opción</option>
+                @for (p of parentescos; track p) {
+                  <option [value]="p">{{ p }}</option>
+                }
+              </select>
+              @if (mensajeErrorApoderado('parentesco')) {
+                <p class="text-red-600 text-xs mt-1">{{ mensajeErrorApoderado('parentesco') }}</p>
+              }
+            </div>
+
+            <div class="sm:col-span-2">
+              <label class="block text-sm font-medium text-gray-700 mb-1">Dirección</label>
+              <input type="text" formControlName="direccion"
+                     class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+              @if (mensajeErrorApoderado('direccion')) {
+                <p class="text-red-600 text-xs mt-1">{{ mensajeErrorApoderado('direccion') }}</p>
+              }
+            </div>
+          </div>
+        </form>
+      }
+
+      <!-- PASO 3: DOCUMENTOS -->
+      @if (pasoActual === 3) {
+        <div>
+          <h3 class="text-lg font-semibold text-blue-900 mb-1">Documentos</h3>
+          <p class="text-gray-500 text-sm mb-5">Formatos permitidos: PDF, JPG, JPEG, PNG.</p>
+
+          <div class="grid gap-4">
+            @for (doc of documentosCampos; track doc.clave) {
+              <div class="border border-gray-200 rounded-xl p-4 flex flex-col sm:flex-row sm:items-center gap-3 justify-between">
+                <div>
+                  <p class="font-medium text-gray-800">{{ doc.nombre }}</p>
+                  <p class="text-gray-500 text-xs">{{ doc.descripcion }}</p>
+                  @if (documentos[doc.clave].adjuntado) {
+                    <p class="text-green-600 text-xs mt-1 font-medium">✓ Adjuntado — {{ documentos[doc.clave].nombreArchivo }}</p>
+                  }
+                  @if (erroresDocumentos[doc.clave]) {
+                    <p class="text-red-600 text-xs mt-1">{{ erroresDocumentos[doc.clave] }}</p>
+                  }
+                </div>
+                <label
+                  class="bg-blue-50 hover:bg-blue-100 text-blue-700 text-sm font-medium px-4 py-2 rounded-lg cursor-pointer text-center whitespace-nowrap transition-colors">
+                  Seleccionar archivo
+                  <input type="file" class="hidden" accept=".pdf,.jpg,.jpeg,.png"
+                         (change)="seleccionarArchivo($event, doc.clave)">
+                </label>
+              </div>
+            }
+          </div>
+        </div>
+      }
+
+      <!-- PASO 4: REVISIÓN -->
+      @if (pasoActual === 4) {
+        <div>
+          <h3 class="text-lg font-semibold text-blue-900 mb-5">Revisar información</h3>
+
+          <div class="mb-6">
+            <h4 class="font-semibold text-gray-700 mb-2 text-sm uppercase tracking-wide">Datos del estudiante</h4>
+            <div class="grid sm:grid-cols-2 gap-2 text-sm text-gray-700 bg-gray-50 rounded-xl p-4">
+              <p><span class="text-gray-500">Nombres:</span> {{ formEstudiante.value.nombres }}</p>
+              <p><span class="text-gray-500">Apellidos:</span> {{ formEstudiante.value.apellidos }}</p>
+              <p><span class="text-gray-500">DNI:</span> {{ formEstudiante.value.dni }}</p>
+              <p><span class="text-gray-500">Fecha de nacimiento:</span> {{ formEstudiante.value.fechaNacimiento }}</p>
+              <p><span class="text-gray-500">Grado:</span> {{ formEstudiante.value.grado }}</p>
+              <p><span class="text-gray-500">Es nuevo:</span> {{ formEstudiante.value.esNuevo === 'si' ? 'Sí' : 'No' }}</p>
+            </div>
+          </div>
+
+          <div class="mb-6">
+            <h4 class="font-semibold text-gray-700 mb-2 text-sm uppercase tracking-wide">Datos del apoderado</h4>
+            <div class="grid sm:grid-cols-2 gap-2 text-sm text-gray-700 bg-gray-50 rounded-xl p-4">
+              <p><span class="text-gray-500">Nombre:</span> {{ formApoderado.value.nombreCompleto }}</p>
+              <p><span class="text-gray-500">DNI:</span> {{ formApoderado.value.dni }}</p>
+              <p><span class="text-gray-500">Teléfono:</span> {{ formApoderado.value.telefono }}</p>
+              <p><span class="text-gray-500">Correo:</span> {{ formApoderado.value.correo }}</p>
+              <p><span class="text-gray-500">Parentesco:</span> {{ formApoderado.value.parentesco }}</p>
+              <p><span class="text-gray-500">Dirección:</span> {{ formApoderado.value.direccion }}</p>
+            </div>
+          </div>
+
+          <div class="mb-2">
+            <h4 class="font-semibold text-gray-700 mb-2 text-sm uppercase tracking-wide">Documentos</h4>
+            <div class="grid sm:grid-cols-2 gap-2 text-sm text-gray-700 bg-gray-50 rounded-xl p-4">
+              @for (doc of documentosCampos; track doc.clave) {
+                <p>
+                  <span class="text-gray-500">{{ doc.nombre }}:</span>
+                  @if (documentos[doc.clave].adjuntado) {
+                    <span class="text-green-600 font-medium">✓ Adjuntado</span>
+                  } @else {
+                    <span class="text-red-500">Pendiente</span>
+                  }
+                </p>
+              }
+            </div>
+          </div>
+        </div>
+      }
+
+      <!-- PASO 5: CONFIRMACIÓN -->
+      @if (pasoActual === 5) {
+        <div class="text-center py-6 fade-in">
+          @if (envioExitoso) {
+            <div class="text-5xl text-green-500 mb-4">✓</div>
+            <h3 class="text-xl font-bold text-blue-900 mb-2">¡Solicitud enviada!</h3>
+            <p class="text-gray-600 mb-6">Tu número de solicitud es:</p>
+            <p class="text-2xl font-bold text-blue-700 mb-4">{{ numeroSolicitudGenerado }}</p>
+            <span class="inline-block bg-yellow-100 text-yellow-700 font-semibold px-4 py-1.5 rounded-full text-sm mb-8">
+              ● EN REVISIÓN
+            </span>
+            <div class="flex flex-col sm:flex-row gap-3 justify-center">
+              <a href="#consulta" (click)="nuevaMatricula()"
+                 class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-xl transition-colors">
+                Consultar estado
+              </a>
+              <button type="button" (click)="nuevaMatricula()"
+                      class="bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 font-semibold px-6 py-3 rounded-xl transition-colors">
+                Registrar otra matrícula
+              </button>
+            </div>
+          }
+        </div>
+      }
+
+      <!-- BOTONES DE NAVEGACIÓN -->
+      @if (pasoActual < 5) {
+        <div class="flex justify-between mt-8 pt-5 border-t border-gray-100">
+          <button type="button" (click)="pasoAnterior()"
+                  [disabled]="pasoActual === 1"
+                  class="px-5 py-2.5 rounded-xl font-medium text-sm transition-colors"
+                  [class.opacity-0]="pasoActual === 1"
+                  [class.pointer-events-none]="pasoActual === 1"
+                  [class.text-gray-600]="pasoActual !== 1"
+                  [class.hover:bg-gray-100]="pasoActual !== 1">
+            ← Anterior
+          </button>
+
+          @if (pasoActual < 4) {
+            <button type="button" (click)="siguientePaso()"
+                    class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2.5 rounded-xl transition-colors">
+              Siguiente
+            </button>
+          }
+
+          @if (pasoActual === 4) {
+            <button type="button" (click)="enviarSolicitud()"
+                    class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2.5 rounded-xl transition-colors">
+              Enviar solicitud
+            </button>
+          }
+        </div>
+      }
+    </div>
+  </div>
+</section>

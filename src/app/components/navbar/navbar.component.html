@@ -1,0 +1,42 @@
+<header class="bg-blue-900 text-white sticky top-0 z-50 shadow-md no-imprimir">
+  <div class="max-w-[1100px] mx-auto px-4 sm:px-6">
+    <div class="flex items-center justify-between h-16">
+      <div class="flex flex-col leading-tight">
+        <span class="font-bold text-sm sm:text-base tracking-wide">IEP N.° 20874</span>
+        <span class="text-xs sm:text-sm text-blue-200">Gestión 2026</span>
+      </div>
+
+      <!-- Navegación en PC -->
+      <nav class="hidden md:flex items-center gap-6 text-sm font-medium">
+        <a href="#inicio" (click)="cerrarMenu()" class="hover:text-blue-200 transition-colors">Inicio</a>
+        <a href="#proceso" (click)="cerrarMenu()" class="hover:text-blue-200 transition-colors">Proceso</a>
+        <a href="#requisitos" (click)="cerrarMenu()" class="hover:text-blue-200 transition-colors">Requisitos</a>
+        <a href="#consulta" (click)="cerrarMenu()"
+           class="bg-blue-600 hover:bg-blue-500 transition-colors px-4 py-2 rounded-full">
+          Consultar estado
+        </a>
+      </nav>
+
+      <!-- Botón hamburguesa -->
+      <button type="button" (click)="toggleMenu()"
+              class="md:hidden flex flex-col justify-center items-center w-9 h-9 gap-1.5"
+              aria-label="Abrir menú">
+        <span class="block w-6 h-0.5 bg-white transition-transform"
+              [class.rotate-45]="menuAbierto" [class.translate-y-2]="menuAbierto"></span>
+        <span class="block w-6 h-0.5 bg-white transition-opacity" [class.opacity-0]="menuAbierto"></span>
+        <span class="block w-6 h-0.5 bg-white transition-transform"
+              [class.-rotate-45]="menuAbierto" [class.-translate-y-2]="menuAbierto"></span>
+      </button>
+    </div>
+
+    <!-- Menú móvil -->
+    @if (menuAbierto) {
+      <nav class="md:hidden flex flex-col gap-1 pb-4 fade-in text-sm font-medium">
+        <a href="#inicio" (click)="cerrarMenu()" class="py-2 px-2 rounded hover:bg-blue-800">Inicio</a>
+        <a href="#proceso" (click)="cerrarMenu()" class="py-2 px-2 rounded hover:bg-blue-800">Proceso</a>
+        <a href="#requisitos" (click)="cerrarMenu()" class="py-2 px-2 rounded hover:bg-blue-800">Requisitos</a>
+        <a href="#consulta" (click)="cerrarMenu()" class="py-2 px-2 rounded bg-blue-600 text-center">Consultar estado</a>
+      </nav>
+    }
+  </div>
+</header>
